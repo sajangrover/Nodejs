@@ -8,13 +8,19 @@ connect.then((db)=> {
     console.log("connected to database");
 
     const newDish = new Dishes({
-        name: 'burger1',
+        name: 'burger',
         description: 'blahlahblah...'
     })
 
     newDish.save()
         .then((dish) => {
-            return Dishes.find({}).exec();
+            dish.comments.push({
+                rating: 5,
+                comment: 'nice.......',
+                author: 'someone'
+            })
+
+            return dish.save();
         }).then((dishes) =>{
             console.log(dishes);
 
