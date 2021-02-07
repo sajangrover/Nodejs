@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const dishRouter = require('./routes/dishRouter');
 const promoRouter = require('./routes/promoRouter');
 const leaderRouter = require('./routes/leaderRouter');
+const mongoose = require('mongoose');
+const url = 'mongodb://127.0.0.1:27017/conFusion';
 
 const hostname = 'localhost';
 const port = 3000;
@@ -17,6 +19,12 @@ app.use(express.static(__dirname + '/public'));
 app.use('/dishes', dishRouter);
 app.use('/promotions',promoRouter);
 app.use('/leaders',leaderRouter);
+
+mongoose.connect(url,{useNewUrlParser : true, useUnifiedTopology: true }).then((db) =>{
+    console.log("connected to database");
+},(err) => {
+    console.log(err);
+});
 
 app.use((req,res,next) =>{
     res.statusCode = 200;
